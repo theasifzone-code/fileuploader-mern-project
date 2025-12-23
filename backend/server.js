@@ -7,10 +7,11 @@ import userRoute from "./routes/user.route.js";
 import cors from "cors";
 
 const app = express();
+const PORT = process.env.PORT
 
 // CORS
 app.use(cors({
-  origin: "https://your-vercel-frontend-url.vercel.app", // localhost hatao
+  origin: "http://localhost:5173", 
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
@@ -24,5 +25,7 @@ app.use("/api", userRoute);
 // DB connect
 connectDB().catch((err) => console.log(err));
 
-//  MOST IMPORTANT
-export default app;
+app.listen(PORT,()=>{
+    console.log("server running")
+})
+
