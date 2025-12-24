@@ -5,7 +5,7 @@ import { authMiddleware } from "../middleware/auth.middleware.js";
 const router = express.Router();
 
 router.post("/upload",authMiddleware, upload.single("file"), uploadFile);
-router.get("/files", getAllFiles);
+router.get("/files", authMiddleware,getAllFiles);
 router.delete("/files/:id",authMiddleware,deleteFile);
 router.delete("/file/deleteAllFiles",authMiddleware, deleteAllFiles)
 
