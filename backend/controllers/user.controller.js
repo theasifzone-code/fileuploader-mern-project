@@ -1,15 +1,28 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
+import { sendOtpMail } from "../utils/sendMail.js"
 
 // register controller
 export const registerUser = async (req, res) => {
     try {
-        const user = await User.create(req.body);
-        user.password = undefined;
+        const { name, email, password } = req.body;
+        const userExist = await User.findOne({ email });
+        if (userExist) {
+            return res.status(400).json({ message: "Email already exists" });
+        }
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        const user = await User.create({
+            name,
+            email,
+            password,
+            otp,
+            otpExpires: Date.now() + 10 * 60 * 1000 // 10 minutes
+        });
+        await sendOtpMail(email, otp,name);
         res.status(201).json({
-            message: "User Registered Successfully",
-            user
+            message: "OTP sent to your email",
+            userId: user._id
         });
     } catch (error) {
         res.status(500).json({
@@ -19,10 +32,41 @@ export const registerUser = async (req, res) => {
     }
 }
 
+// otp varify
+export const verifyOtp = async (req, res) => {
+    try {
+        const { userId, otp } = req.body;
+        const user = await User.findById(userId).select("+otp +otpExpires");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        if (user.otp !== Number(otp)) {
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
+        if (user.otpExpires < Date.now()) {
+            return res.status(400).json({ message: "OTP expired" });
+        }
+        // jwt token generate
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.jWT_SECRET,
+            { expiresIn: "1d" }
+        )
+        user.isVerified = true;
+        user.otp = null;
+        user.otpExpires = null;
+        await user.save();
+        res.json({ message: "Account verified successfully",token });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
 // login controller
 export const loginUser = async (req, res) => {
     try {
-        const {password,email} = req.body
+        const { password, email } = req.body
         const user = await User.findOne({ email }).select("+password");
         // console.log(user);
         if (!user.email) {
@@ -70,3 +114,4 @@ export const getAllUsers = async (req, res) => {
         })
     }
 }
+

@@ -18,6 +18,21 @@ export const uploadFileApi = (file) => {
 };
 
 //  GET FILES 
-export const getAllFilesApi = (params) => {
-    return api.get("/files", { params });
+export const getAllFilesApi = () => {
+    return api.get("/files");
 };
+
+// delete file
+export const deleteOneFile = (id)=>{
+    return api.delete(`/files/${id}`)
+}
+
+// delete all files
+export const deleteAllFiles = ()=>{
+    return api.delete("/file/deleteAllFiles")
+}
+
+// otp varify
+export const verifyOtp = (data)=>{
+    return api.post("/auth/verify-otp",data)
+}

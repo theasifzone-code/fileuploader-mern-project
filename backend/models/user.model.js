@@ -4,24 +4,35 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        trim:true,
-        minlength:2
+        trim: true,
+        minlength: 2
     },
     email: {
         type: String,
         required: true,
-        unique:true,
-        lowercase:true,
-        trim:true
+        unique: true,
+        lowercase: true,
+        trim: true
     },
     password: {
         type: String,
         required: true,
-        minlength:6,
-        select:false  // not send resp   
+        minlength: 6,
+        select: false  // not send resp   
+    },
+    otp: {
+        type: Number,
+        default: null
+    },
+    otpExpires: {
+        type: Date,
+        default: null
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true })
-
 
 userSchema.pre('save', async function () {
     if (!this.isModified("password")) return;

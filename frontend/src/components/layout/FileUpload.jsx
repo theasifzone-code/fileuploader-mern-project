@@ -39,19 +39,18 @@ const FileUpload = ({getAllFiles}) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6">
+    <div className="min-h-screen flex items-center justify-center px-6 ">
       <ToastContainer />
-      <div className="w-full  bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white">
+      <div className="w-full  bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl mt-6 sm:mt-1 p-8 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white">
         <div className="flex flex-col items-center gap-3 mb-6">
           <UploadCloud size={40} className="text-yellow-300" />
-          <h1 className="text-3xl font-extrabold">Upload File</h1>
+          <h1 className="text-3xl font-bold sm:font-extrabold">Upload File</h1>
           <p className="text-sm opacity-80 text-center">
             Securely upload your files to the server
           </p>
         </div>
-
         <form className="flex flex-col gap-4">
-          <label className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-white/40 rounded-xl cursor-pointer hover:border-yellow-300 transition-all">
+          <label className="flex flex-col items-center justify-center gap-2 p-3 sm:p-6 border-2 border-dashed border-white/40 rounded-xl cursor-pointer hover:border-yellow-300 transition-all">
             <input
               ref={fileRef}
               type="file"
@@ -65,7 +64,6 @@ const FileUpload = ({getAllFiles}) => {
               Supported: JPG, PNG
             </span>
           </label>
-
           <button
             type="button"
             onClick={uploadHandle}

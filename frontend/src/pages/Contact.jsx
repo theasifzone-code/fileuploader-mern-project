@@ -24,15 +24,12 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen  bg-gradient-to-br from-indigo-500 via-purple-400 to-pink-500 px-6 py-24 text-white flex flex-col items-center">
-
       {/* Heading */}
       <h1 className="text-4xl font-extrabold mb-6">Contact Us</h1>
       <p className="text-center max-w-2xl text-lg mb-10 opacity-90">
         Have a question or feedback? Reach out to us using the form below or through our contact information. We are here to help!
       </p>
-
       <div className="flex flex-col md:flex-row gap-12 max-w-5xl w-full">
-
         {/* Contact Form */}
         <form
           className="flex-1 flex flex-col gap-4 bg-white/10 backdrop-blur-xl p-8 rounded-2xl shadow-2xl"
@@ -87,7 +84,6 @@ const Contact = () => {
             We usually respond within 24 hours. Looking forward to hearing from you!
           </p>
         </div>
-
       </div>
     </div>
   );

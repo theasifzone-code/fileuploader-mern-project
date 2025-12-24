@@ -30,10 +30,9 @@ const Home = () => {
       </section>
        {isLoading ? 
       <section className=" pb-2 px-6">
-        <AllFile allFiles={allFiles} />
+        <AllFile allFiles={allFiles} getAllFiles={getAllFiles} />
       </section> : <h1>Loading....</h1>
       }
-
     </div>
   );
 };

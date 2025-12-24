@@ -5,6 +5,7 @@ import connectDB from "./db/db.js";
 import fileUpload from "./routes/fileUpload.route.js";
 import userRoute from "./routes/user.route.js";
 import cors from "cors";
+import {authMiddleware} from "./middleware/auth.middleware.js"
 
 const app = express();
 const PORT = process.env.PORT
@@ -19,13 +20,13 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
-app.use("/api", fileUpload);
 app.use("/api", userRoute);
+app.use("/api",  fileUpload);
 
 // DB connect
 connectDB().catch((err) => console.log(err));
 
 app.listen(PORT,()=>{
-    console.log("server running")
+    console.log("server running at port " + PORT)
 })
 

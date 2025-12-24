@@ -15,24 +15,22 @@ const Auth = ({ isSignUp, setIsSignUp }) => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { name, email, password } = formData;
-
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-
     const submitHandler = async (e) => {
         e.preventDefault();
-
         if (!email || !password || (isSignUp && !name)) {
             return toast.error("Please fill all the fields");
         }
-
         try {
             setLoading(true);
             if (isSignUp) {
                 const res = await registerApi({ name, email, password });
+                localStorage.setItem("userId",res.data.userId)
                 toast.success(res.data.message);
                 setIsSignUp(false);
+                navigate("/verify-otp")
             } else {
                 const res = await loginApi({ email, password });
                 localStorage.setItem("token", res.data.token);
@@ -46,7 +44,6 @@ const Auth = ({ isSignUp, setIsSignUp }) => {
             setLoading(false);
         }
     };
-
     return (
         <div className="min-h-screen flex items-center justify-center mt-17 md:mt-10  px-6">
             <div className="max-w-5xl w-full bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600  rounded-3xl shadow-2xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
