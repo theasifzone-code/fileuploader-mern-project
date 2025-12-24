@@ -1,29 +1,23 @@
 import { v2 as cloudinary } from "cloudinary";
-import fs from "fs";
+import streamifier from "streamifier";
 import dotenv from "dotenv";
-dotenv.config()
-
+dotenv.config();
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-})
-// console.log(process.env.CLOUDINARY_CLOUD_NAME)
-export const uploadFile = async (localFilePath) => {
-    try {
-        if (!localFilePath) return null;
-        // upload file to cloudinary
-        const result = await cloudinary.uploader.upload(localFilePath, {
-            resource_type: "auto",
-        });
-        // delete file from local
-        fs.unlinkSync(localFilePath);
-        return result
-    } catch (error) {
-        // console.log("Cloudinary  Error:", error);
-        if (fs.existsSync(localFilePath)) {
-            fs.unlinkSync(localFilePath);
-        }
-        throw new Error("Error uploading file to Cloudinary");
-    }
-}
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+export const uploadFile = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "file-uploader", resource_type: "auto" },
+      (error, result) => {
+        if (result) resolve(result);
+        else reject(error);
+      }
+    );
+
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+};

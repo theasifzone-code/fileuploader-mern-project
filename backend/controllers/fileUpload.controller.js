@@ -8,21 +8,16 @@ export const uploadFile = async (req, res) => {
         if (!req.file) {
             return res.status(400).json({ error: "No file uploaded" });
         }
-        const cloudinaryResult = await cloudinaryUpload(req.file.path);
-        // console.log(cloudinaryResult)
-        if (!cloudinaryResult) {
-            return res.status(500).json({ error: "Error uploading file to Cloudinary" });
-        }
+        const cloudinaryResult = await cloudinaryUpload(req.file.buffer);
         const file = await FileUpload.create({
             fileUrl: cloudinaryResult.secure_url,
             public_id: cloudinaryResult.public_id,
-            user_id: uId
+            user_id: uId,
         });
-
         res.status(200).json({
             message: "File uploaded successfully",
             file,
-        })
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
