@@ -14,7 +14,7 @@ const PORT = process.env.PORT
 app.use(cors());
 app.use(express.json());
 // DB connect
-connectDB().catch((err) => console.log(err));
+await connectDB().catch((err) => console.log(err));
 // Routes
 app.use("/api", userRoute);
 app.use("/api",  fileUpload);
