@@ -12,7 +12,7 @@ const PORT = process.env.PORT
 
 // CORS
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: "https://fileuploader-mern-project-bpx3.vercel.app/", 
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
