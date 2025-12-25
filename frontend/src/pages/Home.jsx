@@ -2,6 +2,7 @@ import FileUpload from "../components/layout/FileUpload";
 import AllFile from "../components/layout/AllFile";
 import { useState, useEffect } from "react";
 import { getAllFilesApi } from "../api/auth.api.js";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -20,6 +21,13 @@ const Home = () => {
       getAllFiles();
     }
   }, []);
+
+  let token = localStorage.getItem("token")
+  useEffect(() => {
+    if (token) {
+     toast.success("You're already logged in 😊")
+    }
+  }, [])
   return (
     <div className="bg-gradient-to-br from-indigo-500 via-purple-400 to-pink-500 pb-10">
       {/* Upload Section */}
@@ -28,10 +36,10 @@ const Home = () => {
           <FileUpload getAllFiles={getAllFiles} />
         </div>
       </section>
-       {isLoading ? 
-      <section className=" pb-2 px-6">
-        <AllFile allFiles={allFiles} getAllFiles={getAllFiles} />
-      </section> : <h1>Loading....</h1>
+      {isLoading ?
+        <section className=" pb-2 px-6">
+          <AllFile allFiles={allFiles} getAllFiles={getAllFiles} />
+        </section> : <h1>Loading....</h1>
       }
     </div>
   );

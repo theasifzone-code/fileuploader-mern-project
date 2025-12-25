@@ -21,7 +21,11 @@ const Verify = () => {
             localStorage.setItem("token", res.data.token);
             toast.success(res.data.message || "Account verified");
             localStorage.removeItem("userId");
+            let token = localStorage.getItem("token");
+            if(token){
             navigate("/home");
+            }
+            navigate("/")
         } catch (error) {
             toast.error(error.response?.data?.message || "Invalid OTP");
         } finally {

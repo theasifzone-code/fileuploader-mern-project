@@ -27,7 +27,7 @@ const Auth = ({ isSignUp, setIsSignUp }) => {
             setLoading(true);
             if (isSignUp) {
                 const res = await registerApi({ name, email, password });
-                localStorage.setItem("userId",res.data.userId)
+                localStorage.setItem("userId", res.data.userId)
                 toast.success(res.data.message);
                 setIsSignUp(false);
                 navigate("/verify-otp")
@@ -35,7 +35,11 @@ const Auth = ({ isSignUp, setIsSignUp }) => {
                 const res = await loginApi({ email, password });
                 localStorage.setItem("token", res.data.token);
                 toast.success(res.data.message);
+                let token = localStorage.getItem("token");
+                if(token){
                 navigate("/home");
+                }
+                navigate("/")
             }
             setFormData({ name: "", email: "", password: "" });
         } catch (error) {
