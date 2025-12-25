@@ -9,6 +9,7 @@ const Verify = () => {
     const [otp, setOtp] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
     const submitHandler = async (e) => {
         e.preventDefault();
         if (otp.length !== 6) {
@@ -50,7 +51,7 @@ const Verify = () => {
                         type="text"
                         maxLength={6}
                         placeholder="Enter OTP"
-                        className="bg-gray-100 text-gray-800 rounded-xl tracking-[6px] text-center font-bold text-xl"
+                        
                     />
                     <button
                         disabled={loading}

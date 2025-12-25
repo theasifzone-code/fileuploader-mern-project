@@ -1,23 +1,20 @@
 import { useState, useRef } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { UploadCloud } from "lucide-react"
 import { uploadFileApi } from "../../api/auth.api.js";
 
-const FileUpload = ({getAllFiles}) => {
+const FileUpload = ({ getAllFiles }) => {
   const [fileUpload, setFileUpload] = useState(null);
   const [btn, setBtn] = useState("Upload");
   const fileRef = useRef(null);
-
   const uploadHandle = async () => {
     if (!fileUpload) {
       toast.error("Please select a file first");
       return;
     }
-
     try {
       setBtn("Uploading...");
       const res = await uploadFileApi(fileUpload);
-
       if (res) {
         toast.success("File uploaded successfully");
         setBtn("Uploaded");
@@ -32,15 +29,12 @@ const FileUpload = ({getAllFiles}) => {
       toast.error("Something went wrong");
       setBtn("Failed");
     }
-
     setTimeout(() => {
       setBtn("Upload");
     }, 1000);
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center px-6 ">
-      <ToastContainer />
       <div className="w-full  bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl mt-6 sm:mt-1 p-8 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white">
         <div className="flex flex-col items-center gap-3 mb-6">
           <UploadCloud size={40} className="text-yellow-300" />

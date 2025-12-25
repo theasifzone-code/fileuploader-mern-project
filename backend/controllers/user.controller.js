@@ -9,7 +9,7 @@ export const registerUser = async (req, res) => {
         const { name, email, password } = req.body;
         const userExist = await User.findOne({ email });
         if (userExist) {
-            return res.status(400).json({ message: "Email already exists" });
+            return res.status(400).json({ message: "Email already exists"});
         }
         const otp = Math.floor(100000 + Math.random() * 900000);
         const user = await User.create({

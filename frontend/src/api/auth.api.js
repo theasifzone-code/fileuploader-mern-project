@@ -6,6 +6,7 @@ export const loginApi = (data) => {
 };
 
 export const registerApi = (data) => {
+    // console.log(data)
     return api.post("/auth/register", data);
 };
 
