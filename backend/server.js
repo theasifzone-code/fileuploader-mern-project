@@ -11,11 +11,7 @@ const app = express();
 const PORT = process.env.PORT
 
 // CORS
-app.use(cors({
-  origin: "https://fileuploader-mern-project-bpx3.vercel.app/", 
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+app.use(cors());
 
 app.use(express.json());
 
